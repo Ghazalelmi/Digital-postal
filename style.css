@@ -1,0 +1,198 @@
+:root {
+
+  --bg-color: rgb(9, 27, 31);
+  --bg-envelope-color: #f5edd1;
+  --envelope-tab: #ecdeb8;
+  --envelope-cover: #e6cfa7;
+  
+  --txt-color: #444;
+  --heart-color: rgb(0, 0, 0);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.container > .envelope-wrapper {
+  background: var(--bg-envelope-color);
+  box-shadow: 0 0 40px var(--shadow-color);
+  position: relative;
+  transform-origin: top;
+  transition: transform 0.5s ease-in-out 0.7s;
+}
+
+.container > .envelope-wrapper {
+  background: var(--bg-envelope-color);
+  box-shadow: 0 0 40px var(--shadow-color);
+  position: relative;
+  transform-origin: top;
+  transition: transform 0.5s ease-in-out 0.7s;
+}
+
+.envelope-wrapper > .envelope {
+  position: relative;
+  width: 520px;     /* پاکت بزرگ‌تر */
+  height: 360px;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* زبانه بالا */
+.envelope-wrapper > .envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  border-top: 260px solid var(--envelope-tab);
+  border-right: 260px solid transparent;
+  border-left: 260px solid transparent;
+  transform-origin: top;
+  transition: all 0.1s ease-in-out 0.2s;
+}
+
+/* پوشش پایین */
+.envelope-wrapper > .envelope::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 0px;
+  height: 0px;
+  border-top: 180px solid transparent;
+  border-right: 260px solid var(--envelope-cover);
+  border-bottom: 160px solid var(--envelope-cover);
+  border-left: 260px solid var(--envelope-cover);
+
+
+}
+
+.envelope > .card {
+  position: absolute;
+  left: 50%;
+    bottom: -100px; /* کاملا داخل پاکت باشه */
+    width: 160px; /* افقی و کوچکتر از قبل */
+  height: 100px;
+  transform: translateX(-50%);
+  perspective: 1000px;
+  transition: all 1s ease-in-out;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 120%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease-in-out;
+  border-radius: 8px;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: var(--primary);
+  border-radius: 1px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 12px;
+  color: var(--txt-color);
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* چرخش کارت */
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* حرکت بالا آمدن کارت */
+.envelope-wrapper.flap > .envelope::before {
+  transform: rotateX(180deg);
+}
+
+.envelope-wrapper > .envelope > .card {
+  bottom: 130px; /* حرکت کارت به سمت بالا */
+}
+
+.heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  background: var(--heart-color);
+  z-index: 4;
+  transform: translate(-50%, -20%) rotate(45deg);
+  transition: transform 0.5s ease-in-out 1s;
+  box-shadow: 0 1px 6px var(--shadow-color);
+  cursor: pointer;
+}
+
+.heart:before, 
+.heart:after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: var(--heart-color);
+  border-radius: 50%;
+}
+
+.heart:before {
+  top: -7.5px;
+}
+
+.heart:after {
+  right: 7.5px;
+}
+
+.flap > .envelope:before {
+  transform: rotateX(180deg);
+  z-index: 0;
+}
+
+.flap > .heart {
+  transform: rotate(90deg);
+  transition-delay: 0.4s;
+
+}
+
+/* تعریف انیمیشن بزرگ‌تر شدن و بالا رفتن کارت */
+@keyframes card-animation {
+  0% {
+    bottom: -0px; /* کارت در ابتدا مخفی باشد */
+    transform: translateX(0%) scale(1); /* اندازه اولیه کارت */
+    opacity: 0;
+  }
+  100% {
+    bottom: 400px; /* کارت به سمت بالا حرکت می‌کند */
+    transform: translateX(-67%) scale(1.1); /* کارت بزرگتر می‌شود */
+    opacity: 1; /* کارت نمایان می‌شود */
+  }
+}
+
+/* وقتی پاکت باز می‌شود */
+.envelope-wrapper.flap > .envelope > .card {
+  animation: card-animation 1s ease-in-out forwards; /* انیمیشن برای بزرگ‌تر شدن و بالا رفتن */
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Envelope + Letter (Open/Close on Click)</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope">
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <img src="frob.png" alt="Front of the card" /> <!-- تصویر جلو -->
+                        </div>
+                        <div class="card-back">
+                            <img src="unbb.png" alt="Back of the card" /> <!-- تصویر پشت -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="heart"></div>
+        </div>
+    </div>
+    <script>
+        const envelope = document.querySelector('.envelope-wrapper');
+        const card = document.querySelector('.card');
+        
+        envelope.addEventListener('click', () => {
+            // اینجا حرکت به بالا و چرخش همزمان انجام می‌شود
+            card.classList.toggle('flipped');
+            envelope.classList.toggle('flap');
+            card.style.transition = 'transform 1s ease-in-out, bottom 1s ease-in-out';
+            card.style.bottom = '120px'; // موقعیت بالا رفتن
+            
+            envelope.classList.add('flap');
+        });
+    </script>
+
+</body>
+</html>
